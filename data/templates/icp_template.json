@@ -1,0 +1,32 @@
+{
+  "launch_id": "",
+  "demographics": {
+    "age_range": "",
+    "gender": "",
+    "location": "",
+    "profession": "",
+    "income_range": "",
+    "education": ""
+  },
+  "psychographics": {
+    "values": [],
+    "beliefs": [],
+    "aspirations": [],
+    "frustrations": [],
+    "lifestyle": ""
+  },
+  "pain_points": [],
+  "desires": [],
+  "objections": [],
+  "language_patterns": [],
+  "where_they_hang_out": {
+    "social_media": [],
+    "communities": [],
+    "influencers_they_follow": [],
+    "content_they_consume": []
+  },
+  "awareness_level": "",
+  "sophistication_level": 0,
+  "buying_triggers": [],
+  "buying_blockers": []
+}
