@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Equipo de Agentes - Lanzamientos Digitales</title>
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --surface: #12121a;
+      --surface-2: #1a1a2e;
+      --border: #2a2a3e;
+      --text: #e4e4ef;
+      --text-muted: #8888a0;
+      --accent: #6c5ce7;
+      --accent-light: #a29bfe;
+      --green: #00b894;
+      --orange: #fdcb6e;
+      --red: #fd7979;
+      --blue: #74b9ff;
+      --pink: #fd79a8;
+      --teal: #00cec9;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* --- HERO --- */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+      position: relative;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: radial-gradient(ellipse at 50% 30%, rgba(108,92,231,0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .4rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      font-size: .85rem;
+      color: var(--accent-light);
+      margin-bottom: 2rem;
+      background: var(--surface);
+    }
+
+    .badge span { font-size: .7rem; }
+
+    h1 {
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      max-width: 800px;
+      margin-bottom: 1.5rem;
+    }
+
+    h1 .gradient {
+      background: linear-gradient(135deg, var(--accent-light), var(--teal));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin-bottom: 2.5rem;
+    }
+
+    .cta-row {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn {
+      padding: .8rem 2rem;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all .2s;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .btn-primary:hover { background: var(--accent-light); }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-ghost:hover { border-color: var(--accent); color: var(--accent-light); }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 2rem;
+      animation: bounce 2s infinite;
+      color: var(--text-muted);
+      font-size: .85rem;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(8px); }
+    }
+
+    /* --- SECTIONS --- */
+    section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 6rem 2rem;
+    }
+
+    .section-label {
+      font-size: .8rem;
+      text-transform: uppercase;
+      letter-spacing: .15em;
+      color: var(--accent-light);
+      margin-bottom: .5rem;
+    }
+
+    h2 {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 1rem;
+    }
+
+    h2 .gradient {
+      background: linear-gradient(135deg, var(--accent-light), var(--teal));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .section-desc {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      max-width: 650px;
+      margin-bottom: 3rem;
+    }
+
+    /* --- PIPELINE --- */
+    .pipeline {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      position: relative;
+    }
+
+    .pipeline::before {
+      content: '';
+      position: absolute;
+      left: 32px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--accent), var(--teal), var(--green));
+    }
+
+    .agent-card {
+      display: grid;
+      grid-template-columns: 64px 1fr;
+      gap: 1.5rem;
+      padding: 2rem 0;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .agent-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      z-index: 1;
+      border: 2px solid var(--border);
+      background: var(--surface);
+      transition: all .3s;
+    }
+
+    .agent-card:hover .agent-icon {
+      border-color: var(--accent);
+      box-shadow: 0 0 20px rgba(108,92,231,0.3);
+    }
+
+    .agent-card[data-color="purple"] .agent-icon { border-color: var(--accent); }
+    .agent-card[data-color="blue"] .agent-icon { border-color: var(--blue); }
+    .agent-card[data-color="orange"] .agent-icon { border-color: var(--orange); }
+    .agent-card[data-color="pink"] .agent-icon { border-color: var(--pink); }
+    .agent-card[data-color="teal"] .agent-icon { border-color: var(--teal); }
+
+    .agent-body h3 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: .25rem;
+    }
+
+    .agent-role {
+      color: var(--text-muted);
+      font-size: .95rem;
+      margin-bottom: 1rem;
+    }
+
+    .agent-details {
+      display: none;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-top: 1rem;
+      animation: slideDown .3s ease;
+    }
+
+    .agent-details.open { display: block; }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .detail-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .detail-box h4 {
+      font-size: .8rem;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--accent-light);
+      margin-bottom: .5rem;
+    }
+
+    .detail-box ul {
+      list-style: none;
+      font-size: .9rem;
+    }
+
+    .detail-box li {
+      padding: .3rem 0;
+      color: var(--text-muted);
+    }
+
+    .detail-box li::before {
+      content: '>';
+      color: var(--accent);
+      margin-right: .5rem;
+      font-weight: 700;
+    }
+
+    .example-box {
+      grid-column: 1 / -1;
+      background: var(--surface-2);
+      border-radius: 12px;
+      padding: 1.2rem;
+      margin-top: .5rem;
+    }
+
+    .example-box h4 {
+      font-size: .8rem;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--green);
+      margin-bottom: .5rem;
+    }
+
+    .example-box p {
+      font-size: .9rem;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    .checkpoint {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      padding: 1rem 0 1rem 80px;
+      font-size: .9rem;
+      color: var(--green);
+      font-weight: 600;
+    }
+
+    .checkpoint-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 8px rgba(0,184,148,0.5);
+    }
+
+    /* --- COMPARISON --- */
+    .comparison {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .compare-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 2rem;
+    }
+
+    .compare-card.bad { border-color: rgba(253,121,121,0.3); }
+    .compare-card.good { border-color: rgba(0,184,148,0.3); }
+
+    .compare-card h3 {
+      font-size: 1.1rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+    }
+
+    .compare-card.bad h3 { color: var(--red); }
+    .compare-card.good h3 { color: var(--green); }
+
+    .compare-item {
+      padding: .6rem 0;
+      font-size: .95rem;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .compare-item:last-child { border: none; }
+
+    .compare-example {
+      background: var(--surface-2);
+      border-radius: 12px;
+      padding: 1rem;
+      margin-top: 1rem;
+      font-size: .85rem;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    .compare-card.bad .compare-example { border-left: 3px solid var(--red); }
+    .compare-card.good .compare-example { border-left: 3px solid var(--green); }
+
+    /* --- LOOP --- */
+    .loop-container {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      position: relative;
+      margin-top: 2rem;
+    }
+
+    .loop-item {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 2rem;
+      padding: 2rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .loop-item:last-child { border: none; }
+
+    .loop-number {
+      font-size: 3rem;
+      font-weight: 800;
+      line-height: 1;
+      background: linear-gradient(135deg, var(--accent), var(--teal));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .loop-content h3 {
+      font-size: 1.2rem;
+      margin-bottom: .5rem;
+    }
+
+    .loop-content p {
+      color: var(--text-muted);
+      font-size: .95rem;
+    }
+
+    .loop-metric {
+      display: inline-flex;
+      align-items: center;
+      gap: .3rem;
+      background: var(--surface-2);
+      border-radius: 8px;
+      padding: .3rem .7rem;
+      font-size: .85rem;
+      margin-top: .5rem;
+      color: var(--green);
+      font-weight: 600;
+    }
+
+    /* --- COMMANDS --- */
+    .commands-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .command-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      transition: all .2s;
+    }
+
+    .command-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .command-name {
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 1.1rem;
+      color: var(--accent-light);
+      margin-bottom: .5rem;
+      font-weight: 700;
+    }
+
+    .command-desc {
+      color: var(--text-muted);
+      font-size: .9rem;
+    }
+
+    .command-when {
+      font-size: .8rem;
+      color: var(--text-muted);
+      margin-top: .75rem;
+      padding-top: .75rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .command-when strong { color: var(--text); }
+
+    /* --- SKILLS --- */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .skill-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem;
+    }
+
+    .skill-name {
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: .95rem;
+      color: var(--orange);
+      margin-bottom: .25rem;
+    }
+
+    .skill-desc {
+      font-size: .85rem;
+      color: var(--text-muted);
+    }
+
+    .skill-user {
+      font-size: .75rem;
+      color: var(--text-muted);
+      margin-top: .5rem;
+      opacity: .7;
+    }
+
+    /* --- FOOTER --- */
+    footer {
+      text-align: center;
+      padding: 4rem 2rem;
+      color: var(--text-muted);
+      font-size: .85rem;
+      border-top: 1px solid var(--border);
+    }
+
+    footer a {
+      color: var(--accent-light);
+      text-decoration: none;
+    }
+
+    footer a:hover { text-decoration: underline; }
+
+    /* --- RESPONSIVE --- */
+    @media (max-width: 768px) {
+      .detail-grid { grid-template-columns: 1fr; }
+      .comparison { grid-template-columns: 1fr; }
+      .loop-item { grid-template-columns: 60px 1fr; gap: 1rem; }
+      .loop-number { font-size: 2rem; }
+      .pipeline::before { left: 32px; }
+      .checkpoint { padding-left: 80px; }
+    }
+
+    @media (max-width: 480px) {
+      .agent-card { grid-template-columns: 48px 1fr; gap: 1rem; }
+      .agent-icon { width: 48px; height: 48px; font-size: 1.2rem; }
+      .pipeline::before { left: 24px; }
+      .checkpoint { padding-left: 60px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="badge">
+      <span>&#9679;</span> 5 agentes IA especializados
+    </div>
+    <h1>Tu equipo de lanzamiento, <span class="gradient">listo para producir</span></h1>
+    <p>5 agentes de IA trabajan en cadena para crear todo lo que necesitas en un lanzamiento digital: estrategia, copy, emails, contenido social y campanas de ads.</p>
+    <div class="cta-row">
+      <a href="#pipeline" class="btn btn-primary">Ver como funciona</a>
+      <a href="https://github.com/Brayaanrp/equipo-agentes-lanzamientos" target="_blank" class="btn btn-ghost">GitHub</a>
+    </div>
+    <div class="scroll-hint">Scroll para explorar &#8595;</div>
+  </header>
+
+  <!-- PIPELINE -->
+  <section id="pipeline">
+    <div class="section-label">El flujo</div>
+    <h2>De brief a lanzamiento completo <span class="gradient">en 5 fases</span></h2>
+    <p class="section-desc">Tu das el brief. Cada agente produce su parte leyendo lo que hizo el anterior. Tu apruebas entre cada fase.</p>
+
+    <div class="pipeline">
+
+      <!-- ESTRATEGA -->
+      <div class="agent-card" data-color="purple" onclick="toggle(this)">
+        <div class="agent-icon">&#9813;</div>
+        <div class="agent-body">
+          <h3>1. Estratega</h3>
+          <p class="agent-role">Analiza tu mercado, define tu cliente ideal y disena la oferta</p>
+          <div class="agent-details">
+            <div class="detail-grid">
+              <div class="detail-box">
+                <h4>Que lee</h4>
+                <ul>
+                  <li>Tu brief (producto, precio, audiencia)</li>
+                  <li>Frameworks de lanzamiento</li>
+                  <li>Retros de lanzamientos anteriores</li>
+                </ul>
+              </div>
+              <div class="detail-box">
+                <h4>Que produce</h4>
+                <ul>
+                  <li>Perfil de cliente ideal (ICP)</li>
+                  <li>Posicionamiento y promesa</li>
+                  <li>Tipo de funnel recomendado</li>
+                  <li>Stack de valor (producto + bonos)</li>
+                </ul>
+              </div>
+              <div class="example-box">
+                <h4>Ejemplo de output</h4>
+                <p>"Tu cliente ideal es una emprendedora de 28-40 anos que ya vende por Instagram pero esta estancada en $2K/mes. Su objecion principal: 'ya probe cursos y no me funcionaron'. Funnel recomendado: webinar de 60 min. Promesa: 'Duplica tus ventas por DM en 30 dias sin depender del algoritmo'."</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="checkpoint">
+        <div class="checkpoint-dot"></div>
+        Tu revisas y apruebas la estrategia
+      </div>
+
+      <!-- COPYWRITER -->
+      <div class="agent-card" data-color="blue" onclick="toggle(this)">
+        <div class="agent-icon">&#9998;</div>
+        <div class="agent-body">
+          <h3>2. Copywriter</h3>
+          <p class="agent-role">Escribe tu pagina de ventas, script de video y headlines</p>
+          <div class="agent-details">
+            <div class="detail-grid">
+              <div class="detail-box">
+                <h4>Que lee</h4>
+                <ul>
+                  <li>ICP + estrategia del paso anterior</li>
+                  <li>Tu tono de marca real</li>
+                  <li>Ejemplos de copy que te funciono</li>
+                </ul>
+              </div>
+              <div class="detail-box">
+                <h4>Que produce</h4>
+                <ul>
+                  <li>Pagina de ventas completa</li>
+                  <li>Script de VSL o webinar</li>
+                  <li>Pagina de captura</li>
+                  <li>10 headlines + 5 hooks de video</li>
+                </ul>
+              </div>
+              <div class="example-box">
+                <h4>Ejemplo de headline</h4>
+                <p>"El metodo DM Profit: como 47 emprendedoras pasaron de perseguir clientes a tener una lista de espera, sin hacer reels virales ni depender del algoritmo"</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="checkpoint">
+        <div class="checkpoint-dot"></div>
+        Tu revisas y apruebas el copy
+      </div>
+
+      <!-- EMAIL MARKETER -->
+      <div class="agent-card" data-color="orange" onclick="toggle(this)">
+        <div class="agent-icon">&#9993;</div>
+        <div class="agent-body">
+          <h3>3. Email Marketer</h3>
+          <p class="agent-role">Crea ~25 emails listos para copiar y pegar en tu plataforma</p>
+          <div class="agent-details">
+            <div class="detail-grid">
+              <div class="detail-box">
+                <h4>Secuencias</h4>
+                <ul>
+                  <li>Pre-launch (5-8 emails)</li>
+                  <li>Carrito abierto (7-10 emails)</li>
+                  <li>Carrito abandonado (4 emails)</li>
+                  <li>Post-compra (5 emails)</li>
+                  <li>Downsell (3 emails)</li>
+                </ul>
+              </div>
+              <div class="detail-box">
+                <h4>Cada email incluye</h4>
+                <ul>
+                  <li>Subject line + variante A/B</li>
+                  <li>Preview text</li>
+                  <li>Cuerpo completo</li>
+                  <li>CTA + dia y hora de envio</li>
+                </ul>
+              </div>
+              <div class="example-box">
+                <h4>Ejemplo de subject line</h4>
+                <p>Subject: "Ana facturo $4,200 en su primer mes (y antes no vendia ni un post)"<br>Preview: "Te cuento que hizo diferente..."</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="checkpoint">
+        <div class="checkpoint-dot"></div>
+        Tu revisas y apruebas los emails
+      </div>
+
+      <!-- SOCIAL MEDIA -->
+      <div class="agent-card" data-color="pink" onclick="toggle(this)">
+        <div class="agent-icon">&#9881;</div>
+        <div class="agent-body">
+          <h3>4. Social Media</h3>
+          <p class="agent-role">Genera calendario completo con cada post escrito y descrito visualmente</p>
+          <div class="agent-details">
+            <div class="detail-grid">
+              <div class="detail-box">
+                <h4>Plataformas</h4>
+                <ul>
+                  <li>Instagram (feed, stories, reels)</li>
+                  <li>TikTok</li>
+                  <li>Facebook</li>
+                  <li>YouTube (si aplica)</li>
+                </ul>
+              </div>
+              <div class="detail-box">
+                <h4>Cada pieza incluye</h4>
+                <ul>
+                  <li>Texto/caption completo</li>
+                  <li>Descripcion visual para disenador</li>
+                  <li>Script si es video</li>
+                  <li>Hashtags + CTA</li>
+                </ul>
+              </div>
+              <div class="example-box">
+                <h4>Ejemplo de hook para reel</h4>
+                <p>[00:00-00:03] "Si vendes por Instagram y no estas usando este metodo de DMs, estas dejando dinero en la mesa" (texto en pantalla: "$4,200 en 30 dias")</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="checkpoint">
+        <div class="checkpoint-dot"></div>
+        Tu revisas y apruebas el contenido
+      </div>
+
+      <!-- ADS SPECIALIST -->
+      <div class="agent-card" data-color="teal" onclick="toggle(this)">
+        <div class="agent-icon">&#9733;</div>
+        <div class="agent-body">
+          <h3>5. Ads Specialist</h3>
+          <p class="agent-role">Disena campanas de Meta y Google con audiencias, copy y presupuesto</p>
+          <div class="agent-details">
+            <div class="detail-grid">
+              <div class="detail-box">
+                <h4>Estructura</h4>
+                <ul>
+                  <li>TOFU: awareness (frios)</li>
+                  <li>MOFU: leads (tibios)</li>
+                  <li>BOFU: ventas (calientes)</li>
+                </ul>
+              </div>
+              <div class="detail-box">
+                <h4>Que produce</h4>
+                <ul>
+                  <li>Campanas Meta + Google</li>
+                  <li>Audiencias por temperatura</li>
+                  <li>Copy de cada anuncio</li>
+                  <li>Presupuesto por fase</li>
+                </ul>
+              </div>
+              <div class="example-box">
+                <h4>Ejemplo de distribucion</h4>
+                <p>Budget $1,500: TOFU 20% ($300) para video views / MOFU 50% ($750) para registro webinar / BOFU 30% ($450) retargeting a visitantes de pagina de venta. Meta 85% / Google 15%.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="checkpoint">
+        <div class="checkpoint-dot"></div>
+        Tu revisas y apruebas las campanas
+      </div>
+
+    </div>
+  </section>
+
+  <!-- COMPARISON -->
+  <section id="diferencia">
+    <div class="section-label">La diferencia</div>
+    <h2>No es "pedirle a la IA que escriba copy"</h2>
+    <p class="section-desc">Hay una diferencia enorme entre un prompt generico y un sistema donde cada pieza esta conectada.</p>
+
+    <div class="comparison">
+      <div class="compare-card bad">
+        <h3>&#10005; IA generica</h3>
+        <div class="compare-item">Empieza de cero cada vez</div>
+        <div class="compare-item">No conoce tu marca ni tu tono</div>
+        <div class="compare-item">Cada pieza es independiente</div>
+        <div class="compare-item">No aprende de resultados</div>
+        <div class="compare-item">Output generico y predecible</div>
+        <div class="compare-example">"Escribeme un email de ventas para mi curso"</div>
+      </div>
+      <div class="compare-card good">
+        <h3>&#10003; Este sistema</h3>
+        <div class="compare-item">Lee tu voz de marca real</div>
+        <div class="compare-item">Usa frameworks probados (PLF, VSL, webinar)</div>
+        <div class="compare-item">Todo esta conectado: brief &rarr; ads</div>
+        <div class="compare-item">Aprende de cada lanzamiento</div>
+        <div class="compare-item">Output personalizado a tu marca</div>
+        <div class="compare-example">"Email 5 destruye la objecion 'no tengo tiempo' usando el tono de marca aprobado y la estrategia del paso 1"</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPOUND LEARNING -->
+  <section id="aprendizaje">
+    <div class="section-label">El secreto</div>
+    <h2>Mejora con <span class="gradient">cada lanzamiento</span></h2>
+    <p class="section-desc">Despues de cada lanzamiento metes tus numeros reales. El sistema guarda que funciono y que no. El proximo lanzamiento arranca mas inteligente.</p>
+
+    <div class="loop-container">
+      <div class="loop-item">
+        <div class="loop-number">01</div>
+        <div class="loop-content">
+          <h3>Primer lanzamiento</h3>
+          <p>El sistema usa frameworks generales + tu voz de marca. Produces un buen lanzamiento. Cierras con <code>/cerrar-lanzamiento</code> y guardas que funciono y que no.</p>
+          <div class="loop-metric">Ejemplo: $5,000 facturados</div>
+        </div>
+      </div>
+      <div class="loop-item">
+        <div class="loop-number">02</div>
+        <div class="loop-content">
+          <h3>Segundo lanzamiento</h3>
+          <p>El estratega lee la retro del lanzamiento 1. Sabe que los emails de historia tuvieron 2x mas apertura que los de objeciones. Prioriza storytelling.</p>
+          <div class="loop-metric">Ejemplo: $12,000 facturados</div>
+        </div>
+      </div>
+      <div class="loop-item">
+        <div class="loop-number">03</div>
+        <div class="loop-content">
+          <h3>Tercer lanzamiento</h3>
+          <p>Ahora el sistema tiene 2 retros con datos reales de TU marca. Sabe que hooks funcionan, que objeciones atacar primero, que tipo de ads convierten mejor.</p>
+          <div class="loop-metric">Ejemplo: $28,000 facturados</div>
+        </div>
+      </div>
+      <div class="loop-item">
+        <div class="loop-number">...</div>
+        <div class="loop-content">
+          <h3>Cada vez mas inteligente</h3>
+          <p>Ningun freelancer ni agencia tiene esto: un historial de TUS datos reales que mejora cada decision automaticamente. El sistema se vuelve tu ventaja competitiva.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMMANDS -->
+  <section id="comandos">
+    <div class="section-label">Como usarlo</div>
+    <h2>5 comandos, eso es todo</h2>
+    <p class="section-desc">No necesitas aprender nada complejo. 5 comandos cubren todo el ciclo de un lanzamiento.</p>
+
+    <div class="commands-grid">
+      <div class="command-card">
+        <div class="command-name">/nuevo-lanzamiento</div>
+        <div class="command-desc">Crea un lanzamiento de cero. Te guia paso a paso por las 5 fases con checkpoints en cada una.</div>
+        <div class="command-when"><strong>Cuando:</strong> Arrancas un lanzamiento nuevo</div>
+      </div>
+      <div class="command-card">
+        <div class="command-name">/iterar</div>
+        <div class="command-desc">Cambia algo especifico sin regenerar todo. "Reescribe este email", "Dame mas headlines", "Cambia la campana BOFU".</div>
+        <div class="command-when"><strong>Cuando:</strong> Quieres ajustar una pieza</div>
+      </div>
+      <div class="command-card">
+        <div class="command-name">/revisar-estrategia</div>
+        <div class="command-desc">Carga un lanzamiento existente y te deja iterar sobre la estrategia hasta que quede perfecta.</div>
+        <div class="command-when"><strong>Cuando:</strong> Quieres repensar el enfoque</div>
+      </div>
+      <div class="command-card">
+        <div class="command-name">/exportar-lanzamiento</div>
+        <div class="command-desc">Genera un documento unico con todo: estrategia, copy, emails, posts, anuncios. Listo para compartir.</div>
+        <div class="command-when"><strong>Cuando:</strong> Necesitas ver todo junto</div>
+      </div>
+      <div class="command-card">
+        <div class="command-name">/cerrar-lanzamiento</div>
+        <div class="command-desc">Metes tus numeros reales. El sistema genera una retro y guarda los aprendizajes para futuros lanzamientos.</div>
+        <div class="command-when"><strong>Cuando:</strong> Termino el lanzamiento</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="section-label">Bajo el capo</div>
+    <h2>6 skills especializadas</h2>
+    <p class="section-desc">Recetas paso a paso que los agentes usan automaticamente. No necesitas invocarlas, pero es bueno saber que existen.</p>
+
+    <div class="skills-grid">
+      <div class="skill-card">
+        <div class="skill-name">headline-formulas</div>
+        <div class="skill-desc">10-15 headlines usando formulas probadas por nivel de awareness del cliente</div>
+        <div class="skill-user">Usado por: Copywriter, Ads</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-name">bonos-stack</div>
+        <div class="skill-desc">Disena bonos que justifican el precio y destruyen objeciones de compra</div>
+        <div class="skill-user">Usado por: Estratega, Copywriter</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-name">estructura-vsl</div>
+        <div class="skill-desc">Script de Video Sales Letter bloque por bloque (metodo Jon Benson)</div>
+        <div class="skill-user">Usado por: Copywriter</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-name">framework-plf</div>
+        <div class="skill-desc">3 videos pre-launch + emails + social (Product Launch Formula de Jeff Walker)</div>
+        <div class="skill-user">Usado por: Copywriter, Social</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-name">email-sequence-launch-7d</div>
+        <div class="skill-desc">11 emails dia a dia para 7 dias de carrito abierto</div>
+        <div class="skill-user">Usado por: Email Marketer</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-name">secuencia-cart-abandonment</div>
+        <div class="skill-desc">4 emails para recuperar carritos abandonados con timing exacto</div>
+        <div class="skill-user">Usado por: Email Marketer</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>Equipo de Agentes - Lanzamientos &middot; <a href="https://github.com/Brayaanrp/equipo-agentes-lanzamientos" target="_blank">Ver en GitHub</a></p>
+    <p style="margin-top:.5rem">Hecho con Claude Code</p>
+  </footer>
+
+  <script>
+    function toggle(card) {
+      const details = card.querySelector('.agent-details');
+      const wasOpen = details.classList.contains('open');
+
+      // Close all
+      document.querySelectorAll('.agent-details').forEach(d => d.classList.remove('open'));
+
+      // Toggle clicked
+      if (!wasOpen) {
+        details.classList.add('open');
+      }
+    }
+
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        e.preventDefault();
+        document.querySelector(a.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+  </script>
+</body>
+</html>
